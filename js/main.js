@@ -1,35 +1,39 @@
 
 
 function onBodyLoad() {
+    console.log('onBodyLoad()')
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('js/sw.js');
     };
 
-    var media = navigator.mediaDevices.getUserMedia({
+    navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
-            facingMode: "user"
+            facingMode: "user",
+            frameRate: {
+                ideal: 5,
+                max: 15
+            }
         }
     }).then(function(stream){
         console.log('stream:' + stream)
-        var video = document.getElementById('camera-preview')
+        const video = document.getElementById('camera-preview')
         video.srcObject = stream
         video.addEventListener('loadedmetadata', function(e){
-            var width = video.videoWidth
-            var height = video.videoHeight
-            var button = document.getElementById('take-photo')
-            var canvas = document.getElementById('photo-canvas')
-            button.onclick = function(){
-                canvas.width = width;
-                canvas.height = height;
-                var context = canvas.getContext('2d')
-                context.drawImage(video, 0, 0, width, height)
-                var image = context.getImageData(0, 0, width, height)
-                var code = jsQR(image.data, image.width, image.height)
+            const button = document.getElementById('take-photo')
+            const canvas = document.createElement('canvas')
+            const context = canvas.getContext('2d')
+            canvas.width = video.videoWidth
+            canvas.height = video.videoHeight
+            setInterval(function(){
+                context.drawImage(video, 0, 0, canvas.width, canvas.height)
+                const image = context.getImageData(0, 0, canvas.width, canvas.height)
+                const code = jsQR(image.data, image.width, image.height)
+                console.log('code : ' + code)
                 if (code) {
                     console.log('QR code : ' + code.data)
                 }
-            }
+            }, 1000)
         }, false)
     })
 
