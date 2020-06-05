@@ -32,6 +32,7 @@ function onBodyLoad() {
                 console.log('code : ' + code)
                 if (code) {
                     console.log('QR code : ' + code.data)
+                    window.alert('code.data:' + code.data)
                 }
             }, 1000)
         }, false)
