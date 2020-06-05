@@ -31,8 +31,7 @@ function onBodyLoad() {
                 const code = jsQR(image.data, image.width, image.height)
                 console.log('code : ' + code)
                 if (code) {
-                    console.log('QR code : ' + code.data)
-                    window.alert('code.data:' + code.data)
+                    location.href = code.data
                 }
             }, 1000)
         }, false)
