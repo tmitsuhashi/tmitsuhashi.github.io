@@ -29,10 +29,6 @@ function onBodyLoad() {
                 if (code) {
                     console.log('QR code : ' + code.data)
                 }
-                /*
-                canvas.getContext("2d").drawImage(video, 0, 0, width, height, 0, 0, width, height);
-                var img = canvas.toDataURL("image/jpeg");
-                */
             }
         }, false)
     })
